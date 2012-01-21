@@ -5,15 +5,13 @@ import java.util.*;
 
 /*********************
  * template
- *
+ * 
  * @author - Bryan Fearson
- * @version - 
+ * @version -
  *********************/
- 
- public interface CountdownObserver
- {
- public void handleTime( String time);
 
-}//end interface
-	
+public interface CountdownObserver {
+	public void handleTime(String time);
+
+}// end interface
 

@@ -5,14 +5,13 @@ import java.util.*;
 
 /*********************
  * template
- *
+ * 
  * @author - Bryan Fearson
- * @version - 
+ * @version -
  *********************/
- 
- public interface Runnable
- {
 
-  public void run();
+public interface Runnable {
 
-}//end interface
+	public void run();
+
+}// end interface

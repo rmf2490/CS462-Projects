@@ -5,19 +5,17 @@ import java.util.*;
 
 /*********************
  * template
- *
+ * 
  * @author - Bryan Fearson
- * @version - 
+ * @version -
  *********************/
- 
- public interface CountdownSubject
- {
- public void addObserver(CountdownObserver observer);
-  public String notifyObservers(String time);
-  public void removeObservers(CountdownObserver observer);
 
+public interface CountdownSubject {
+	public void addObserver(CountdownObserver observer);
 
-}//end interface
-	
+	public String notifyObservers(String time);
 
+	public void removeObservers(CountdownObserver observer);
+
+}// end interface
 

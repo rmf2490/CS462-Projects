@@ -4,23 +4,27 @@ import interfaces.*;
 
 /*********************
  * CountdownDisplay class
- *
+ * 
  * @author - Bryan Fearson
- * @version - 
+ * @version -
  *********************/
- 
- public class CountdownDisplay implements CountdownObserver
- {
- 	
-	public CountdownDisplay()
-	{
-	
+
+public class CountdownDisplay implements CountdownObserver {
+	private String message;
+
+	public CountdownDisplay(String message) {
+		this.message = message;
 	}
-	public void handleTime( String time)
-	{
-	System.out.println(time);
+	public CountdownDisplay(){
+		//No args, just pass message directly to the handleTime() method instead
+	}
+
+	public void handleTime() {
+		System.out.println(this.message);
 	}//
-	
 
+	public void handleTime(String message) {
+		System.out.println(message);
+	}
 
-}//end CountdownDisplay
+}// end CountdownDisplay

@@ -4,37 +4,26 @@ import interfaces.*;
 
 /*********************
  * template
- *
+ * 
  * @author - Bryan Fearson
- * @version - 
+ * @version -
  *********************/
- 
- public class SubjectDelegate implements interfaces.Runnable
-  {
- 	/********************
-	 *
-	 *
-	 *@param args command line arguments - unused
-	 ********************/
-	public static void main(String [] args) throws IOException
-	{
-	
-	
+
+public class SubjectDelegate implements interfaces.Runnable {
+
+	public SubjectDelegate(){
+		
 	}
-	
-	public void start()
-	{
-	
-	}//
-	
-	public void stop()
-	{
-	
+	public void start() {
+
 	}//
 
-	public void run()
-	{
-	
+	public void stop() {
+
+	}//
+
+	public void run() {
+
 	}
 
-}//end class SubjectDelegate
+}// end class SubjectDelegate

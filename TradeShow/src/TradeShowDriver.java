@@ -1,14 +1,12 @@
 import java.io.*;
 import java.util.*;
 
-	
-	public class TradeShowDriver 
-	{
-	
+public class TradeShowDriver {
+
 	CountdownDisplay display;
-	public static void main(String [] args) throws IOException
-	{
+
+	public static void main(String[] args) throws IOException {
 
 	}
 
-  }//end class
+}// end class
