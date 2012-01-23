@@ -14,8 +14,10 @@ public class CountdownSimulator implements interfaces.Runnable,
 	private String movieTime;
 	private String movieName;
 	private boolean realTime;
-	private SubjectDelegate SD;
-	ArrayList<CountdownObserver> Observers;
+	//private SubjectDelegate SD;
+	private Thread controlThread;
+	private Hashtable<SubjectDelegate, CountdownObserver> observers;
+	//private ArrayList<CountdownObserver> Observers;
 
 	/********************
 	 * 
@@ -28,22 +30,24 @@ public class CountdownSimulator implements interfaces.Runnable,
 	 * 			True for a real time simulation, false for faster than real time
 	 ********************/
 	public CountdownSimulator(String movie, String time, boolean isRealTime) {
-		movieName = movie;
-		movieTime = time;
-		realTime = isRealTime;
-		Observers = new ArrayList<CountdownObserver>();
+		this.movieName = movie;
+		this.movieTime = time;
+		this.realTime = isRealTime;
+		//controlThread = new Thread(this);
+		this.observers = new Hashtable<SubjectDelegate, CountdownObserver>();
 
 	}// constructor
 
 	public void run() {
 		//This is just test code, the code needs to be updated to work as required
 		while(Integer.parseInt(movieTime) > 0){
-			System.out.println(movieName + "/Time left: " + notifyObservers(movieTime));
+			String message = movieName + "/Time left: " + notifyObservers(movieTime);
+			new CountdownDisplay().handleTime(message);
 		}
 	}// run method
 
 	public void addObserver(CountdownObserver observer) {
-		Observers.add(observer);
+		observers.put(new SubjectDelegate(), observer);
 	}// addObserver method
 
 	public String notifyObservers(String time) {
@@ -54,7 +58,10 @@ public class CountdownSimulator implements interfaces.Runnable,
 	}// notifyObservers method
 
 	public void removeObservers(CountdownObserver observer) {
-		Observers.remove(observer);
+		observers.remove(observer);
 	}// removeObservers method
-
+	
+	public void start(){
+		controlThread.start();
+	}
 }// end class CountdownSimulator

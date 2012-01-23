@@ -11,8 +11,9 @@ import interfaces.*;
 
 public class SubjectDelegate implements interfaces.Runnable {
 
+	private Thread controlTread;
 	public SubjectDelegate(){
-		
+		controlThread = new Thread(this);
 	}
 	public void start() {
 

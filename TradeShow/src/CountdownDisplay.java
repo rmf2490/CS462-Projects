@@ -16,7 +16,7 @@ public class CountdownDisplay implements CountdownObserver {
 		this.message = message;
 	}
 	public CountdownDisplay(){
-		//No args, just pass message directly to the handleTime() method instead
+		//No arguments, just pass message directly to the handleTime() method instead
 	}
 
 	public void handleTime() {

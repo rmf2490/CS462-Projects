@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class TradeShowDriver implements Runnable{
+public class TradeShowDriver{
 
 	private CountdownDisplay display;
 	private CountdownSimulator sim;
@@ -15,25 +15,19 @@ public class TradeShowDriver implements Runnable{
 		CountdownSimulator ToyStoryThree = new CountdownSimulator("Toy Story 3", "102", true);
 		CountdownDisplay Printer = new CountdownDisplay();
 		
-		new TradeShowDriver(FightClub, Printer).start();
-		new TradeShowDriver(CitizenKane, Printer).start();
-		new TradeShowDriver(PulpFiction, Printer).start();
-		new TradeShowDriver(Avatar, Printer).start();
-		new TradeShowDriver(ToyStoryThree, Printer).start();
+		FightClub.addObserver(Printer);
+		CitizenKane.addObserver(Printer);
+		PulpFiction.addObserver(Printer);
+		Avatar.addObserver(Printer);
+		ToyStoryThree.addObserver(Printer);
+		
+		FightClub.start();
+		CitizenKane.start();
+		PulpFiction.start();
+		Avatar.start();
+		ToyStoryThree.start();
 		
 		//System.out.println("Done creating simulator objects");
-	}
-	public TradeShowDriver(CountdownSimulator sim, CountdownDisplay display){
-		this.sim = sim;
-		this.display = display;
-		controlThread = new Thread(this);
-	}
-	public void run(){
-		sim.addObserver(display);
-		sim.run();
-	}
-	public void start(){
-		controlThread.start();
 	}
 
 }// end class
