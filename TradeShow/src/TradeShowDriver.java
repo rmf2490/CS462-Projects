@@ -5,7 +5,6 @@ public class TradeShowDriver{
 
 	private CountdownDisplay display;
 	private CountdownSimulator sim;
-	private Thread controlThread;
 
 	public static void main(String[] args) throws IOException {
 		CountdownSimulator FightClub = new CountdownSimulator("Fight Club", "139", true);
@@ -26,8 +25,6 @@ public class TradeShowDriver{
 		PulpFiction.start();
 		Avatar.start();
 		ToyStoryThree.start();
-		
-		//System.out.println("Done creating simulator objects");
 	}
 
 }// end class

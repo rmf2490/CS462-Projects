@@ -9,8 +9,7 @@ import interfaces.*;
  * @version -
  *********************/
 
-public class CountdownSimulator implements interfaces.Runnable,
-		CountdownSubject {
+public class CountdownSimulator implements Runnable, CountdownSubject {
 	private String movieTime;
 	private String movieName;
 	private boolean realTime;
@@ -30,11 +29,11 @@ public class CountdownSimulator implements interfaces.Runnable,
 	 * 			True for a real time simulation, false for faster than real time
 	 ********************/
 	public CountdownSimulator(String movie, String time, boolean isRealTime) {
-		this.movieName = movie;
-		this.movieTime = time;
-		this.realTime = isRealTime;
-		//controlThread = new Thread(this);
-		this.observers = new Hashtable<SubjectDelegate, CountdownObserver>();
+		movieName = movie;
+		movieTime = time;
+		realTime = isRealTime;
+		observers = new Hashtable<SubjectDelegate, CountdownObserver>();
+		
 
 	}// constructor
 
@@ -62,6 +61,9 @@ public class CountdownSimulator implements interfaces.Runnable,
 	}// removeObservers method
 	
 	public void start(){
+		if(controlThread == null){
+			controlThread = new Thread(this);
+		}
 		controlThread.start();
 	}
 }// end class CountdownSimulator

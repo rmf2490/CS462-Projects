@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-import interfaces.*;
 
 /*********************
  * template
@@ -9,14 +8,17 @@ import interfaces.*;
  * @version -
  *********************/
 
-public class SubjectDelegate implements interfaces.Runnable {
+public class SubjectDelegate implements Runnable {
 
-	private Thread controlTread;
+	private Thread controlThread;
 	public SubjectDelegate(){
-		controlThread = new Thread(this);
+		controlThread = null;
 	}
 	public void start() {
-
+		if(controlThread == null){
+			controlThread = new Thread(this);
+		}
+		controlThread.start();
 	}//
 
 	public void stop() {
