@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 import interfaces.*;
 
@@ -10,7 +9,7 @@ import interfaces.*;
  *********************/
 
 public class CountdownSimulator implements Runnable, CountdownSubject {
-	private String movieTime;
+	private int movieTime;
 	private String movieName;
 	private boolean realTime;
 	//private SubjectDelegate SD;
@@ -28,7 +27,7 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 	 * @param isRealTime
 	 * 			True for a real time simulation, false for faster than real time
 	 ********************/
-	public CountdownSimulator(String movie, String time, boolean isRealTime) {
+	public CountdownSimulator(String movie, int time, boolean isRealTime) {
 		movieName = movie;
 		movieTime = time;
 		realTime = isRealTime;
@@ -39,8 +38,8 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 
 	public void run() {
 		//This is just test code, the code needs to be updated to work as required
-		while(Integer.parseInt(movieTime) > 0){
-			String message = movieName + "/Time left: " + notifyObservers(movieTime);
+		while(movieTime > 0){
+			String message = movieName + "/Time left: " + movieTime;
 			new CountdownDisplay().handleTime(message);
 		}
 	}// run method
@@ -49,10 +48,8 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 		observers.put(new SubjectDelegate(), observer);
 	}// addObserver method
 
-	public String notifyObservers(String time) {
-		movieTime = Integer.toString(Integer.parseInt(time) - 1);
-
-		return movieTime;
+	public void notifyObservers(String time) {
+		movieTime = movieTime - 1;
 
 	}// notifyObservers method
 

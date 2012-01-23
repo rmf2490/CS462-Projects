@@ -1,7 +1,5 @@
 package interfaces;
 
-import java.io.*;
-import java.util.*;
 
 /*********************
  * template
@@ -13,7 +11,7 @@ import java.util.*;
 public interface CountdownSubject {
 	public void addObserver(CountdownObserver observer);
 
-	public String notifyObservers(String time);
+	public void notifyObservers(String time);
 
 	public void removeObservers(CountdownObserver observer);
 
