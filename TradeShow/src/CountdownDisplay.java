@@ -21,7 +21,7 @@ public class CountdownDisplay implements CountdownObserver {
 		System.out.println(this.message);
 	}//
 
-	public void handleTime(String message) {
+	public synchronized void handleTime(String message) {
 		System.out.println(message);
 	}
 
