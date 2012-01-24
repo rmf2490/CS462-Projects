@@ -3,11 +3,11 @@ import java.io.*;
 public class TradeShowDriver{
 
 	public static void main(String[] args) throws IOException {
-		CountdownSimulator FightClub = new CountdownSimulator("Fight Club", 139, true);
-		CountdownSimulator CitizenKane = new CountdownSimulator("Citizen Kane", 119, true);
-		CountdownSimulator PulpFiction = new CountdownSimulator("Pulp Fiction", 154, true);
-		CountdownSimulator Avatar = new CountdownSimulator("James Cameron's Avatar", 162, true);
-		CountdownSimulator ToyStoryThree = new CountdownSimulator("Toy Story 3", 102, true);
+		CountdownSimulator FightClub = new CountdownSimulator("Fight Club", 139, 0, true, 1);
+		CountdownSimulator CitizenKane = new CountdownSimulator("Citizen Kane", 119, 9, true, 2);
+		CountdownSimulator PulpFiction = new CountdownSimulator("Pulp Fiction", 154, 45, false, 5);
+		CountdownSimulator Avatar = new CountdownSimulator("James Cameron's Avatar", 162, 100, false, 10);
+		CountdownSimulator ToyStoryThree = new CountdownSimulator("Toy Story 3", 102, 0, false, 15);
 		CountdownDisplay Printer = new CountdownDisplay();
 		
 		FightClub.addObserver(Printer);
