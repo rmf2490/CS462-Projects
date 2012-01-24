@@ -2,24 +2,28 @@ import java.util.*;
 import interfaces.*;
 
 /*********************
- * template
+ * Simulates the playing of a movie
  * 
- * @author - Bryan Fearson
- * @version -
+ * @author - Bryan Fearson, Ryan Farrell
+ * @version - 1.0
  *********************/
 
+/*
+ * This work complies with the JMU Honor Code
+ */
+
 public class CountdownSimulator implements Runnable, CountdownSubject {
-	private int movieLength;
-	private String movieName;
+	private ArrayList<CountdownObserver> observers;
 	private boolean realTime;
+	private int movieLength;
 	private int notifyIncrement;
-	//private SubjectDelegate SD;
+	private String movieName;
 	private Thread controlThread;
 	//private Hashtable<SubjectDelegate, CountdownObserver> observers;
-	private ArrayList<CountdownObserver> observers;
+	
 
 	/********************
-	 * 
+	 * Constructor for a CountdownSimulator.
 	 * 
 	 * @param movie
 	 * 			Movie this CountdownSimulator is handling
@@ -42,10 +46,49 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 		observers = new ArrayList<CountdownObserver>();
 		
 
-	}// constructor
+	}
+	
+	
+	/**********
+	 * Adds a new observer of this simulator
+	 * 
+	 * @param observer
+	 * 			The CountdownObserver to receive updates
+	 * 
+	 ***********/
+	public void addObserver(CountdownObserver observer) {
+		observers.add(observer);
+	}
 
+	/****
+	 * Notifies all observers of this simulator
+	 * 
+	 * @param time
+	 * 			The time message to send to the observer
+	 */
+	public void notifyObservers(String time) {
+		//Change this to use an iterator?
+		for(int i=0; i<observers.size(); i++){
+			CountdownObserver observer = observers.get(i);
+			new SubjectDelegate(time, observer).start();
+		}
+
+	}
+
+	/***
+	 * Removes an observer from the list of those being notified by this simulation, if it exists
+	 * 
+	 * @param observer
+	 * 			The CountdownObserver to be removed
+	 */
+	public void removeObservers(CountdownObserver observer) {
+		observers.remove(observer);
+	}
+	
+	/***
+	 * Waits a given amount of time, and then notifies all observers of this simulation of the current time left
+	 */
 	public void run() {
-		//This is just test code, the code needs to be updated to work as required
 		while(movieLength > 0){
 			try {
 				if(realTime){
@@ -62,32 +105,17 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 				movieLength = 0;
 			}
 			String message = movieName + "/Time left: " + movieLength;
-			//System.out.println(message);
 			notifyObservers(message);
 		}
-	}// run method
-
-	public void addObserver(CountdownObserver observer) {
-		observers.add(observer);
-	}// addObserver method
-
-	public void notifyObservers(String time) {
-		//Change this?
-		for(int i=0; i<observers.size(); i++){
-			CountdownObserver observer = observers.get(i);
-			new SubjectDelegate(time, observer).start();
-		}
-
-	}// notifyObservers method
-
-	public void removeObservers(CountdownObserver observer) {
-		observers.remove(observer);
-	}// removeObservers method
+	}
 	
+	/***
+	 * Starts CountdownSimulator's run method in a new thread
+	 */
 	public void start(){
 		if(controlThread == null){
 			controlThread = new Thread(this);
 		}
 		controlThread.start();
 	}
-}// end class CountdownSimulator
+}

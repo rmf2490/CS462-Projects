@@ -1,11 +1,15 @@
 import interfaces.CountdownObserver;
 
 /*********************
- * template
+ * Passes on a message to be sent to a CountdownObserver in it's own thread of execution
  * 
- * @author - Bryan Fearson
- * @version -
+ * @author - Bryan Fearson, Ryan Farrell
+ * @version - 1.0
  *********************/
+
+/*
+ * This work complies with the JMU Honor Code
+ */
 
 public class SubjectDelegate implements Runnable {
 
@@ -13,6 +17,7 @@ public class SubjectDelegate implements Runnable {
 	private Thread controlThread;
 	private String message;
 	private CountdownObserver observer;
+	private boolean interrupt;
 	
 	public SubjectDelegate(String message, CountdownObserver obs){
 		controlThread = null;
@@ -20,6 +25,10 @@ public class SubjectDelegate implements Runnable {
 		observer = obs;
 		
 	}
+	public void run() {
+		observer.handleTime(message);
+	}
+	
 	public void start() {
 		if(controlThread == null){
 			controlThread = new Thread(this);
@@ -28,11 +37,9 @@ public class SubjectDelegate implements Runnable {
 	}//
 
 	public void stop() {
-
+		interrupt = true;
 	}//
 
-	public void run() {
-		observer.handleTime(message);
-	}
+	
 
 }// end class SubjectDelegate

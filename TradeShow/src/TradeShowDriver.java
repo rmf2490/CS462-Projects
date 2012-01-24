@@ -1,5 +1,16 @@
 import java.io.*;
 
+/*********************
+ * Driver for PA1. Tests all the classes and their functionality
+ * 
+ * @author - Bryan Fearson, Ryan Farrell
+ * @version - 1.0
+ *********************/
+
+/*
+ * This work complies with the JMU Honor Code
+ */
+
 public class TradeShowDriver{
 
 	public static void main(String[] args) throws IOException {
@@ -23,4 +34,4 @@ public class TradeShowDriver{
 		ToyStoryThree.start();
 	}
 
-}// end class
+}

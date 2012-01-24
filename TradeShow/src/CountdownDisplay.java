@@ -1,26 +1,30 @@
 import interfaces.*;
 
 /*********************
- * CountdownDisplay class
+ * Observer that displays a message on the system console
  * 
  * @author - Bryan Fearson
  * @version -
  *********************/
 
-public class CountdownDisplay implements CountdownObserver {
-	private String message;
+/*
+ * This work complies with the JMU Honor Code
+ */
 
-	public CountdownDisplay(String message) {
-		this.message = message;
-	}
+public class CountdownDisplay implements CountdownObserver {
+
+	/***
+	 * Constructor for a CountdownDisplay
+	 ***/
 	public CountdownDisplay(){
 		//No arguments, just pass message directly to the handleTime() method instead
 	}
 
-	public void handleTime() {
-		System.out.println(this.message);
-	}//
-
+	/***
+	 * Prints a message to the console
+	 * @param message
+	 * 			The message to be printed
+	 ***/
 	public synchronized void handleTime(String message) {
 		System.out.println(message);
 	}
