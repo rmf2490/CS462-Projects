@@ -1,4 +1,5 @@
-import interfaces.*;
+package com.tradeshow;
+import com.tradeshow.interfaces.*;
 
 /*********************
  * Observer that displays a message on the system console

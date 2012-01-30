@@ -1,5 +1,7 @@
+package com.tradeshow;
 import java.util.*;
-import interfaces.*;
+
+import com.tradeshow.interfaces.*;
 
 /*********************
  * Simulates the playing of a movie

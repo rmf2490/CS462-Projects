@@ -1,9 +1,14 @@
-import interfaces.CountdownObserver;
-import interfaces.CountdownSubject;
+package com.tradeshow;
+import com.tradeshow.interfaces.CountdownObserver;
+import com.tradeshow.interfaces.CountdownSubject;
 
 
 public class CountdownReceiver implements CountdownSubject {
 
+	public CountdownReceiver(){
+		
+	}
+	
 	@Override
 	public void addObserver(CountdownObserver observer) {
 		// TODO Auto-generated method stub

@@ -1,7 +1,9 @@
+package com.tradeshow;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import interfaces.CountdownObserver;
+import com.tradeshow.interfaces.CountdownObserver;
+
 
 /*********************
  * Passes on a message to be sent to a CountdownObserver in it's own thread of
