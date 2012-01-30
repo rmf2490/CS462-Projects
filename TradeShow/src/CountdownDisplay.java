@@ -27,6 +27,7 @@ public class CountdownDisplay implements CountdownObserver {
 	 ***/
 	public synchronized void handleTime(String message) {
 		System.out.println(message);
+		System.out.flush();
 	}
 
 }// end CountdownDisplay

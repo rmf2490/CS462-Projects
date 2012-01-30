@@ -1,7 +1,11 @@
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import interfaces.CountdownObserver;
 
 /*********************
- * Passes on a message to be sent to a CountdownObserver in it's own thread of execution
+ * Passes on a message to be sent to a CountdownObserver in it's own thread of
+ * execution
  * 
  * @author - Bryan Fearson, Ryan Farrell
  * @version - 1.0
@@ -13,33 +17,104 @@ import interfaces.CountdownObserver;
 
 public class SubjectDelegate implements Runnable {
 
-	
-	private Thread controlThread;
-	private String message;
+	private boolean keepRunning;
 	private CountdownObserver observer;
-	private boolean interrupt;
+	private final Object lock = new Object();
+	private String message;
+	private volatile Thread controlThread;
 	
-	public SubjectDelegate(String message, CountdownObserver obs){
+	
+	public SubjectDelegate() {
 		controlThread = null;
-		this.message = message;
-		observer = obs;
-		
+		message = "";
+		observer = null;
+
 	}
-	public void run() {
-		observer.handleTime(message);
-	}
-	
-	public void start() {
-		if(controlThread == null){
-			controlThread = new Thread(this);
+
+	/***
+	 * Resumes execution of the thread.
+	 * 
+	 * This is used for notifying the SubjectDelegate that a new message needs
+	 * to be sent
+	 */
+	public void resume() {
+		synchronized (lock) {
+			lock.notifyAll();
 		}
-		controlThread.start();
+	}
+
+	/***
+	 * Notifies a CountdownObserver and waits until resume() is called (when a
+	 * new message is received)
+	 */
+	public void run() {
+		while (keepRunning) {
+			synchronized (lock) {
+				
+				observer.handleTime(message);
+
+				try {
+					
+					lock.wait();
+				} catch (InterruptedException ie) {
+				}
+			}
+		}
+
+		controlThread = null;
+	}
+
+	/***
+	 * Sets the message to be sent to a CountdownObserver
+	 * 
+	 * @param message
+	 *            The message to be sent
+	 */
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	/***
+	 * Sets the CountdownObservers this SubjectDelegate will be notifying
+	 * 
+	 * @param observer
+	 *            The CountdownObserver to notify
+	 */
+	public void setObserver(CountdownObserver observer) {
+		this.observer = observer;
+	}
+
+	/***
+	 * Starts a new thread of execution
+	 * 
+	 * @return TRUE if a new thread was created, FALSE if this object is already
+	 *         running in a thread
+	 */
+	public boolean start() {
+		if (controlThread == null) {
+			controlThread = new Thread(this);
+			keepRunning = true;
+			controlThread.start();
+			return true;
+		}
+		return false;
 	}//
 
+	/***
+	 * Terminates the thread of execution
+	 */
 	public void stop() {
-		interrupt = true;
-	}//
+		if (controlThread != null) {
 
-	
+			synchronized (lock) {
+				keepRunning = false;
+
+				controlThread.interrupt();
+				
+				controlThread = null;
+			}
+		}
+
+	}//
 
 }// end class SubjectDelegate
