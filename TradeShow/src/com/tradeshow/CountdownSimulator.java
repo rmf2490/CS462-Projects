@@ -105,9 +105,9 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 	 */
 	public void removeObservers(CountdownObserver observer) {
 
-		observers.remove(observer);
 		SubjectDelegate delegate = observers.get(observer);
 		delegate.stop();
+		observers.remove(observer);
 	}
 
 	/***
