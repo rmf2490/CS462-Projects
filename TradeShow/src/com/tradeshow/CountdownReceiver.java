@@ -22,7 +22,7 @@ public class CountdownReceiver implements CountdownSubject, Runnable {
 		udpPort = port;
 		observers = new HashMap<CountdownObserver, SubjectDelegate>();
 		try {
-			dgs = new DatagramSocket(port);
+			dgs = new DatagramSocket(udpPort);
 		} catch (SocketException e) {
 			//Something wrong, probably incorrect or unavailable port
 		}
@@ -57,17 +57,22 @@ public class CountdownReceiver implements CountdownSubject, Runnable {
 	}
 	
 	public void run(){
+		//Figure out a way to terminate the thread
 		while(keepRunning){
 			try {
 				byte[] buffer = new byte[255];
 				DatagramPacket in = new DatagramPacket(buffer, buffer.length);
+				dgs.setSoTimeout(15000);
 				dgs.receive(in);
 				String line = new String(in.getData(), 0, in.getLength());
-				notifyObservers(line);
-			} catch (IOException e) {
+				if(line != null && line.length() > 0)
+				{
+					notifyObservers(line);
+				}
+			}
+			catch (IOException e) {
 				//receive failed. retry
 			}
-			
 		}
 	}
 	
