@@ -1,9 +1,6 @@
 package com.tradeshow;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import com.tradeshow.interfaces.CountdownObserver;
-
 
 /*********************
  * Passes on a message to be sent to a CountdownObserver in it's own thread of
@@ -19,18 +16,21 @@ import com.tradeshow.interfaces.CountdownObserver;
 
 public class SubjectDelegate implements Runnable {
 
-	private boolean keepRunning;
+	private volatile boolean keepRunning;
 	private CountdownObserver observer;
 	private final Object lock = new Object();
 	private String message;
 	private volatile Thread controlThread;
-	
-	
+
 	public SubjectDelegate() {
 		controlThread = null;
 		message = "";
 		observer = null;
 
+	}
+
+	public Object getLock() {
+		return this.lock;
 	}
 
 	/***
@@ -52,11 +52,11 @@ public class SubjectDelegate implements Runnable {
 	public void run() {
 		while (keepRunning) {
 			synchronized (lock) {
-				
-				observer.handleTime(message);
+				if(message != ""){
+					observer.handleTime(message);
+				}
 
 				try {
-					
 					lock.wait();
 				} catch (InterruptedException ie) {
 				}
@@ -93,13 +93,13 @@ public class SubjectDelegate implements Runnable {
 	 *         running in a thread
 	 */
 	public boolean start() {
-		if (controlThread == null) {
-			controlThread = new Thread(this);
-			keepRunning = true;
-			controlThread.start();
-			return true;
-		}
-		return false;
+			if (controlThread == null) {
+				controlThread = new Thread(this);
+				keepRunning = true;
+				controlThread.start();
+				return true;
+			}
+			return false;
 	}//
 
 	/***
@@ -107,13 +107,13 @@ public class SubjectDelegate implements Runnable {
 	 */
 	public void stop() {
 		if (controlThread != null) {
-
+			
 			synchronized (lock) {
 				keepRunning = false;
 
 				controlThread.interrupt();
-				
-				controlThread = null;
+
+				//controlThread = null;
 			}
 		}
 

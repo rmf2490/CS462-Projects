@@ -3,21 +3,31 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import com.tradeshow.interfaces.CountdownObserver;
 
+/***
+ * Stores incoming messages in a queue and sends them over the network using UDP to be handled by a CountdownReceiver
+ * 
+ * @author Bryan Fearson, Ryan Farrell
+ *
+ */
 
-public class CountdownSender implements CountdownObserver {
+public class CountdownSender implements Runnable, CountdownObserver {
 
-	private Inet4Address address;
+	private ArrayBlockingQueue<DatagramPacket> queue;
+	private InetAddress address;
 	private int udpPort;
 	private DatagramSocket ds;
+	private Thread controlThread;
 	
 	public CountdownSender(String address, int udpPort){
 		try {
-			this.address = (Inet4Address) Inet4Address.getByName(address);
+			this.address = (InetAddress) Inet4Address.getByName(address);
 			this.udpPort = udpPort;
 			ds = new DatagramSocket();
 		} catch (UnknownHostException e) {
@@ -27,8 +37,8 @@ public class CountdownSender implements CountdownObserver {
 		}
 	}
 	
-	public CountdownSender(){
-		
+	public CountdownSender(String address){
+		this(address, 12345);
 	}
 	
 	@Override
@@ -59,6 +69,16 @@ public class CountdownSender implements CountdownObserver {
 	
 	public void setPort(int udpPort){
 		this.udpPort = udpPort;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void stop(){
+		
 	}
 
 }

@@ -26,7 +26,7 @@ public class CountdownDisplay implements CountdownObserver {
 	 * @param message
 	 * 			The message to be printed
 	 ***/
-	public synchronized void handleTime(String message) {
+	public void handleTime(String message) {
 		System.out.println(message);
 		System.out.flush();
 	}

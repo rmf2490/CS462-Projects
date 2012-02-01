@@ -1,4 +1,5 @@
 package com.tradeshow;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -9,25 +10,35 @@ import java.util.Map;
 import com.tradeshow.interfaces.CountdownObserver;
 import com.tradeshow.interfaces.CountdownSubject;
 
+/***
+ * Waits for input from a CountdownSender, and relays the message to all Observers of the CountdownReceiver object
+ * 
+ * @author Bryan Fearson, Ryan Farrell
+ *
+ */
 
-public class CountdownReceiver implements CountdownSubject, Runnable {
-	
-	private boolean keepRunning;
+public class CountdownReceiver implements Runnable, CountdownSubject {
+
+	private volatile boolean keepRunning;
 	private DatagramSocket dgs;
 	private int udpPort;
 	private HashMap<CountdownObserver, SubjectDelegate> observers;
 	private Thread controlThread;
+
+	public CountdownReceiver(){
+		this(12345);
+	}
 	
-	public CountdownReceiver(int port){
+	public CountdownReceiver(int port) {
 		udpPort = port;
 		observers = new HashMap<CountdownObserver, SubjectDelegate>();
 		try {
 			dgs = new DatagramSocket(udpPort);
 		} catch (SocketException e) {
-			//Something wrong, probably incorrect or unavailable port
+			// Something wrong, probably incorrect or unavailable port
 		}
 	}
-	
+
 	@Override
 	public void addObserver(CountdownObserver observer) {
 		observers.put(observer, new SubjectDelegate());
@@ -35,10 +46,21 @@ public class CountdownReceiver implements CountdownSubject, Runnable {
 		delegate.setObserver(observer);
 
 	}
+	
+	/***
+	 * End any running SubjectDelegate threads
+	 */
+	private void cleanUp() {
+		for(Map.Entry<CountdownObserver, SubjectDelegate> entry: observers.entrySet()) {
+			SubjectDelegate aDelegate = entry.getValue();
+			aDelegate.stop();
+		}
+	}
 
 	@Override
 	public void notifyObservers(String time) {
-		for(Map.Entry<CountdownObserver, SubjectDelegate> entry: observers.entrySet()) {
+		for (Map.Entry<CountdownObserver, SubjectDelegate> entry : observers
+				.entrySet()) {
 			SubjectDelegate delegate = entry.getValue();
 			delegate.setMessage(time);
 			if (delegate.start() == false) {
@@ -55,38 +77,41 @@ public class CountdownReceiver implements CountdownSubject, Runnable {
 		observers.remove(observer);
 
 	}
-	
-	public void run(){
-		//Figure out a way to terminate the thread
-		while(keepRunning){
+
+	public void run() {
+		// Figure out a way to terminate the thread
+		while (keepRunning) {
 			try {
-				byte[] buffer = new byte[255];
-				DatagramPacket in = new DatagramPacket(buffer, buffer.length);
-				dgs.setSoTimeout(15000);
-				dgs.receive(in);
-				String line = new String(in.getData(), 0, in.getLength());
-				if(line != null && line.length() > 0)
-				{
-					notifyObservers(line);
+				if (controlThread.isInterrupted()) {
+					keepRunning = false;
+				} else {
+					byte[] buffer = new byte[255];
+					DatagramPacket in = new DatagramPacket(buffer,
+							buffer.length);
+					dgs.setSoTimeout(5000);
+					dgs.receive(in);
+					String line = new String(in.getData(), 0, in.getLength());
+					if (line != null && line.length() > 0) {
+						notifyObservers(line);
+					}
 				}
-			}
-			catch (IOException e) {
-				//receive failed. retry
+			} catch (IOException e) {
+				// receive failed. retry
 			}
 		}
+		this.cleanUp();
 	}
-	
-	public void start(){
+
+	public void start() {
 		if (controlThread == null) {
 			controlThread = new Thread(this);
 			keepRunning = true;
 			controlThread.start();
 		}
 	}
-	
-	public void stop(){
-		if(controlThread != null)
-		{
+
+	public void stop() {
+		if (controlThread != null) {
 			keepRunning = false;
 
 			controlThread.interrupt();

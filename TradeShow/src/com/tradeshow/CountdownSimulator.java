@@ -19,12 +19,12 @@ import com.tradeshow.interfaces.*;
 
 public class CountdownSimulator implements Runnable, CountdownSubject {
 	// private ArrayList<CountdownObserver> observers;
-	private boolean isPlaying;
+	private volatile boolean isPlaying;
 	private boolean realTime;
 	private int movieLength;
 	private int notifyIncrement;
 	private String movieName;
-	private Thread controlThread;
+	private volatile Thread controlThread;
 	private HashMap<CountdownObserver, SubjectDelegate> observers;
 
 	/********************
@@ -67,6 +67,7 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 		observers.put(observer, new SubjectDelegate());
 		SubjectDelegate delegate = observers.get(observer);
 		delegate.setObserver(observer);
+		delegate.start();
 	}
 
 	/***
@@ -89,9 +90,8 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 		for(Map.Entry<CountdownObserver, SubjectDelegate> entry: observers.entrySet()) {
 			SubjectDelegate delegate = entry.getValue();
 			delegate.setMessage(time);
-			if (delegate.start() == false) {
-				delegate.resume();
-			}
+			delegate.resume();
+			
 		}
 
 	}
@@ -160,7 +160,7 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 
 			controlThread.interrupt();
 
-			controlThread = null;
+			//controlThread = null;
 		}
 	}
 }

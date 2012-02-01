@@ -4,10 +4,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import com.tradeshow.interfaces.*;
 
-import com.tradeshow.interfaces.TradeObserver;
-import com.tradeshow.interfaces.TradeSubject;
-
+/***********AT BOTTOM HAVE A BUTTONLISTENER CLASS TO ADD AN ELEGANT WAY TO END**********/
+/***********CURRENTLY HAVE JFRAME SET TO END ON CLOSE, PROBLEMS WHEN IN LOOP************/
 
 /**
  * A GUI component that can be used to enter available movies
@@ -32,6 +32,7 @@ public class MovieEnterer extends    JFrame
     {
        super();
        ImageIcon           icon;
+		 JButton					endButton;
        JComponent          contentPane;
        JLabel              logo;
        
@@ -56,8 +57,14 @@ public class MovieEnterer extends    JFrame
        textField = new JTextField();
        textField.addKeyListener(this);
        contentPane.add(textField, BorderLayout.SOUTH);
-
-       setTitle("Enter movie title:");
+		 
+		 /*  MAY BE NEDED FOR A SMOOTHER END
+		 endButton = new JButton("End TradeShow");
+		 endButton.addActionListener(new ButtonListener());
+		 contentPane.add(endButton, BorderLayout.SOUTH);
+		 */
+   
+	    setTitle("Enter movie title:");
 
        setSize(400,150);
        setVisible(true);
@@ -151,6 +158,18 @@ public class MovieEnterer extends    JFrame
     {
        observers.remove(observer);
     }
-    
-	    
-}
+  
+  /**
+   * Ends program when the End Button is pressed
+   **/  
+	private class ButtonListener implements ActionListener
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+			System.exit(1);
+			}//
+		
+		}//ButtonListener class
+		    
+}//MovieEnterer Class
+
