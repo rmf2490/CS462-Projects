@@ -1,7 +1,5 @@
 package com.tradeshow.drivers;
 
-import java.io.*;
-import com.tradeshow.interfaces.*;
 import com.tradeshow.trader.*;
 
 /**
@@ -23,7 +21,7 @@ public class DropBoxDriver {
 		MovieEnterer enterer;
 		TradeServer dropbox;
 
-		serverPort = 22801;
+		serverPort = 25252;
 		enterer = new MovieEnterer();
 
 		try {
