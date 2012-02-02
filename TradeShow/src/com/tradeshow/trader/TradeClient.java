@@ -12,8 +12,12 @@ import com.tradeshow.interfaces.*;
 /**
  * Acts as the passengers machine that is watching a movie.
  *
- * @author  Ryan Farrell, Bryan Fearson
+ * @author  Bryan Fearson, Ryan Farrell
  * @version 1.0
+ */
+
+/*
+ * This work complies with the JMU Honor Code
  */
 public class TradeClient 
 {

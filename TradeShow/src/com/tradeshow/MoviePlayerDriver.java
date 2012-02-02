@@ -4,6 +4,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/***
+ * Driver for a movie playing device that transmits information
+ * to DeviceDrivers over a network
+ * 
+ * @author Bryan Fearson, Ryan Farrell
+ * @version 1.0
+ */
+
+/*
+ * This work complies with the JMU Honor Code
+ */
+
 public class MoviePlayerDriver {
 
 	/**

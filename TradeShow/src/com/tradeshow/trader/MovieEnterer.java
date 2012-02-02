@@ -12,9 +12,14 @@ import com.tradeshow.interfaces.*;
 /**
  * A GUI component that can be used to enter available movies
  *
- * @author  Prof. David Bernstein, James Madison University
+ * @author  Bryan Fearson, Ryan Farrell
  * @version 1.0
  */
+
+/*
+ * This work complies with the JMU Honor Code
+ */
+
 public class MovieEnterer extends    JFrame 
                           implements KeyListener, TradeSubject
 {

@@ -15,7 +15,11 @@ import com.tradeshow.interfaces.CountdownObserver;
  * to be handled by a CountdownReceiver
  * 
  * @author Bryan Fearson, Ryan Farrell
- * 
+ * @version 1.0
+ */
+
+/*
+ * This work complies with the JMU Honor Code
  */
 
 public class CountdownSender implements Runnable, CountdownObserver {

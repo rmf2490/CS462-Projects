@@ -14,7 +14,11 @@ import com.tradeshow.interfaces.CountdownSubject;
  * Waits for input from a CountdownSender, and relays the message to all Observers of the CountdownReceiver object
  * 
  * @author Bryan Fearson, Ryan Farrell
- *
+ * @version 1.0
+ */
+
+/*
+ * This work complies with the JMU Honor Code
  */
 
 public class CountdownReceiver implements Runnable, CountdownSubject {

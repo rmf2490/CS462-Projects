@@ -11,9 +11,14 @@ import com.tradeshow.interfaces.*;
  * A Server responsible for acting as the "dropbox" of the movies
  * available.
  *
- * @author  Ryan Farrell, Bryan Fearson
+ * @author  Bryan Fearson, Ryan Farrell
  * @version 1.0
  */
+
+/*
+ * This work complies with the JMU Honor Code
+ */
+
 public class TradeServer implements TradeObserver, Runnable
 {
 	private volatile boolean running;

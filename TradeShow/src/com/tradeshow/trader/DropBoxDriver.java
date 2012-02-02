@@ -10,9 +10,14 @@ import com.tradeshow.trader.*;
  * A driver that can be used test the server-side of the
  * TradeShow available movie system
  *
- * @author  Prof. David Bernstein, James Madison University
+ * @author  Bryan Fearson, Ryan Farrell
  * @version 1.0
  */
+
+/*
+ * This work complies with the JMU Honor Code
+ */
+
 public class DropBoxDriver
 {
     /**

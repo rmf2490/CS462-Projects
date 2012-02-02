@@ -4,6 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/***
+ * Driver for a device monitoring the status of playing movies.
+ * @author Bryan Fearson, Ryan Farrell
+ * @version 1.0
+ */
+
+/*
+ * This work complies with the JMU Honor Code
+ */
+
 public class DeviceDriver {
 
 	/**
