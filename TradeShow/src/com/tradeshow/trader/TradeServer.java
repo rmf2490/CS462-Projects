@@ -1,9 +1,11 @@
+package com.tradeshow.trader;
+
 import java.io.*;
 import java.util.*;
 import java.net.*;
 import javax.swing.*;
 import java.awt.event.*;
-import interfaces.*;
+import com.tradeshow.interfaces.*;
 
 /**
  * A Server responsible for acting as the "dropbox" of the movies
