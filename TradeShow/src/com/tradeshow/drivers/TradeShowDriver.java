@@ -1,5 +1,7 @@
-package com.tradeshow;
+package com.tradeshow.drivers;
+
 import java.io.*;
+import com.tradeshow.*;
 
 /*********************
  * Driver for PA1. Tests all the classes and their functionality

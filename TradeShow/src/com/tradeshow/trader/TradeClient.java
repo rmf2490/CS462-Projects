@@ -1,25 +1,16 @@
-package com.tradeshow.trader;
-
 import java.io.*;
 import java.util.*;
 import javax.swing.JOptionPane;
 import java.net.*;
-import com.tradeshow.interfaces.*;
+import interfaces.*;
 
-/******************NOT SURE IF TRADECLIENT NEEDS TO BE IN OWN THREAD*****************/
-/******************CURRENTLY NOT SET UP THAT WAY************************************/
 
 /**
  * Acts as the passengers machine that is watching a movie.
  *
- * @author  Bryan Fearson, Ryan Farrell
+ * @author  Ryan Farrell, Bryan Fearson
  * @version 1.0
  */
-
-/*
- * This work complies with the JMU Honor Code
- */
-
 public class TradeClient 
 {
 	private BufferedReader input;
@@ -37,23 +28,24 @@ public class TradeClient
 	 * 
 	 * @param reqPort		the port to connect client to
 	 */
-	public TradeClient(String reqHost, int reqPort)
+	public TradeClient(String reqHost, int reqPort) throws IOException,
+																			SocketException
 	{
 			this.port = reqPort;
 			this.host = reqHost;
-			
-			try
-			{
+			System.out.println("TRADE CLIENT PORT:" + port);
 			sock = new Socket(host, port);
-			//System.out.println(sock);
-			ip = sock.getInetAddress();	
+			ip = sock.getInetAddress();
+				
 			input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 			output = new PrintWriter(sock.getOutputStream());
-			}
-			catch(Exception e)
-			{
-			//wait until there is some input
-			}
+			output.flush();
+			
+			while(sock.isConnected())
+				{
+				input.readLine();
+				//
+				}
 			
 	}//constructor
 	
@@ -64,24 +56,18 @@ public class TradeClient
 	 * 
 	 * @param reqPort		the port to connect client to
 	 */
-	public TradeClient(String reqHost, int reqPort, InetAddress addr)
+	public TradeClient(String reqHost, int reqPort, InetAddress addr) throws IOException,
+																			SocketException
 	{
 			this.port = reqPort;
 			this.host = reqHost;
 			this.ip = addr;
-			
-			try
-			{
+
 			sock = new Socket(host, port);
-			//System.out.println(sock);	
+			output = new PrintWriter(sock.getOutputStream());	
 			input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-			output = new PrintWriter(sock.getOutputStream());
-			}
-			catch(Exception e)
-			{
-			//wait until there is some input
-			}
 			
+
 	}//constructor
 	
 	

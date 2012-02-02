@@ -1,8 +1,7 @@
-package com.tradeshow.trader;
+package com.tradeshow.drivers;
 
 import java.io.*;
 import com.tradeshow.interfaces.*;
-import com.tradeshow.*;
 import com.tradeshow.trader.*;
 
 
@@ -10,14 +9,9 @@ import com.tradeshow.trader.*;
  * A driver that can be used test the server-side of the
  * TradeShow available movie system
  *
- * @author  Bryan Fearson, Ryan Farrell
+ * @author  Prof. David Bernstein, James Madison University
  * @version 1.0
  */
-
-/*
- * This work complies with the JMU Honor Code
- */
-
 public class DropBoxDriver
 {
     /**
@@ -42,6 +36,7 @@ public class DropBoxDriver
       
           dropbox = new TradeServer(serverPort);
           enterer.addObserver(dropbox);
+			 dropbox.start();
        }
        catch (Exception ioe)
        {

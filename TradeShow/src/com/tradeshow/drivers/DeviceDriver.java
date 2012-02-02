@@ -1,8 +1,9 @@
-package com.tradeshow;
+package com.tradeshow.drivers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import com.tradeshow.*;
 
 /***
  * Driver for a device monitoring the status of playing movies.
