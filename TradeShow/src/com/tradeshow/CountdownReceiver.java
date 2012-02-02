@@ -24,7 +24,6 @@ import com.tradeshow.interfaces.CountdownSubject;
 public class CountdownReceiver implements Runnable, CountdownSubject {
 
 	private volatile boolean keepRunning;
-	private volatile boolean needsToPrint; 
 	private DatagramSocket dgs;
 	private int udpPort;
 	private HashMap<CountdownObserver, SubjectDelegate> observers;

@@ -27,15 +27,21 @@ public class MoviePlayerDriver {
 		BufferedReader in
 		   = new BufferedReader(new InputStreamReader(System.in));
 		
-		CountdownSimulator FightClub = new CountdownSimulator("Fight Club", 139, 0, false, 1);
+		CountdownSimulator FightClub = new CountdownSimulator("Fight Club", 139, 0, false, 10);
+		CountdownSimulator PulpFiction = new CountdownSimulator("Pulp Fiction", 154, 45, false, 7);
+		CountdownSimulator ToyStoryThree = new CountdownSimulator("Toy Story 3", 102, 0, false, 5);
 
-		CountdownSender outgoing = new CountdownSender("localhost", 12345);
+		CountdownSender outgoing = new CountdownSender();
 		
 		FightClub.addObserver(outgoing);
+		PulpFiction.addObserver(outgoing);
+		ToyStoryThree.addObserver(outgoing);
 		
 		outgoing.start();
 		
 		FightClub.start();
+		PulpFiction.start();
+		ToyStoryThree.start();
 		
 		while(keepPlaying){
 			String line;
@@ -43,7 +49,9 @@ public class MoviePlayerDriver {
 				line = in.readLine();
 				if(line.equals("stop") || line.equals("exit")){
 					FightClub.stop();
-					outgoing.stop();
+					PulpFiction.stop();
+					ToyStoryThree.stop();
+					outgoing.stop(); //Any better way to stop this?
 					keepPlaying = false;
 				}
 			} catch (IOException e) {
