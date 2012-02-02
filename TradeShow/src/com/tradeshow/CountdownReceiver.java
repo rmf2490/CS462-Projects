@@ -20,15 +20,24 @@ import com.tradeshow.interfaces.CountdownSubject;
 public class CountdownReceiver implements Runnable, CountdownSubject {
 
 	private volatile boolean keepRunning;
+	private volatile boolean needsToPrint; 
 	private DatagramSocket dgs;
 	private int udpPort;
 	private HashMap<CountdownObserver, SubjectDelegate> observers;
 	private Thread controlThread;
 
+	/***
+	 * Default Constructor
+	 */
 	public CountdownReceiver(){
 		this(12345);
 	}
 	
+	/***
+	 * Constructor
+	 * @param port
+	 * 		port to listen for messages on
+	 */
 	public CountdownReceiver(int port) {
 		udpPort = port;
 		observers = new HashMap<CountdownObserver, SubjectDelegate>();
@@ -39,6 +48,14 @@ public class CountdownReceiver implements Runnable, CountdownSubject {
 		}
 	}
 
+	/**********
+	 * Adds a new observer of this receiver, and sets up the corresponding
+	 * SubjectDelegate
+	 * 
+	 * @param observer
+	 *            The CountdownObserver to receive updates
+	 * 
+	 ***********/
 	@Override
 	public void addObserver(CountdownObserver observer) {
 		observers.put(observer, new SubjectDelegate());
@@ -57,19 +74,33 @@ public class CountdownReceiver implements Runnable, CountdownSubject {
 		}
 	}
 
+	/****
+	 * Notifies all observers of this receiver
+	 * 
+	 * @param time
+	 *            The time message to send to the observer
+	 */
 	@Override
 	public void notifyObservers(String time) {
 		for (Map.Entry<CountdownObserver, SubjectDelegate> entry : observers
 				.entrySet()) {
 			SubjectDelegate delegate = entry.getValue();
 			delegate.setMessage(time);
+			delegate.setPrintStatus(true);
 			if (delegate.start() == false) {
 				delegate.resume();
 			}
 		}
 
 	}
-
+	
+	/***
+	 * Removes an observer from the list of those being notified by this
+	 * receiver, if it exists
+	 * 
+	 * @param observer
+	 *            The CountdownObserver to be removed
+	 */
 	@Override
 	public void removeObservers(CountdownObserver observer) {
 		SubjectDelegate delegate = observers.get(observer);
@@ -78,8 +109,10 @@ public class CountdownReceiver implements Runnable, CountdownSubject {
 
 	}
 
+	/***
+	 * Monitors for incoming packets, and notifies observers when new messages arrive
+	 */
 	public void run() {
-		// Figure out a way to terminate the thread
 		while (keepRunning) {
 			try {
 				if (controlThread.isInterrupted()) {
@@ -88,7 +121,7 @@ public class CountdownReceiver implements Runnable, CountdownSubject {
 					byte[] buffer = new byte[255];
 					DatagramPacket in = new DatagramPacket(buffer,
 							buffer.length);
-					dgs.setSoTimeout(5000);
+					dgs.setSoTimeout(10000);
 					dgs.receive(in);
 					String line = new String(in.getData(), 0, in.getLength());
 					if (line != null && line.length() > 0) {
@@ -102,6 +135,9 @@ public class CountdownReceiver implements Runnable, CountdownSubject {
 		this.cleanUp();
 	}
 
+	/***
+	 * Starts a new CountdownReceiver thread
+	 */
 	public void start() {
 		if (controlThread == null) {
 			controlThread = new Thread(this);
@@ -110,6 +146,9 @@ public class CountdownReceiver implements Runnable, CountdownSubject {
 		}
 	}
 
+	/***
+	 * Stops this thread of execution
+	 */
 	public void stop() {
 		if (controlThread != null) {
 			keepRunning = false;

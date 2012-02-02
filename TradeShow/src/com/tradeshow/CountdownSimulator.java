@@ -41,7 +41,7 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 	 * @param notifyIncrement
 	 *            How often to notify the observers. If realTime: The value
 	 *            passed in corresponds to how many minutes to wait (5 = 5
-	 *            minutes) If !realTime: The value passed in simulates the given
+	 *            minutes). If !realTime: The value passed in simulates the given
 	 *            number of minutes per second
 	 ********************/
 	public CountdownSimulator(String movie, int length, int startTime,
@@ -79,7 +79,7 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 			aDelegate.stop();
 		}
 	}
-
+	
 	/****
 	 * Notifies all observers of this simulator
 	 * 
@@ -90,6 +90,7 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 		for(Map.Entry<CountdownObserver, SubjectDelegate> entry: observers.entrySet()) {
 			SubjectDelegate delegate = entry.getValue();
 			delegate.setMessage(time);
+			delegate.setPrintStatus(true);
 			delegate.resume();
 			
 		}
@@ -123,7 +124,7 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 					Thread.sleep(1000);
 				}
 				movieLength = movieLength - notifyIncrement;
-				if (movieLength < 0) {
+				if (movieLength <= 0) {
 					movieLength = 0;
 					isPlaying = false;
 				}
@@ -160,7 +161,7 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 
 			controlThread.interrupt();
 
-			//controlThread = null;
+			controlThread = null;
 		}
 	}
 }

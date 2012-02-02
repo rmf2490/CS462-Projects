@@ -15,11 +15,13 @@ public class MoviePlayerDriver {
 		BufferedReader in
 		   = new BufferedReader(new InputStreamReader(System.in));
 		
-		CountdownSimulator FightClub = new CountdownSimulator("Fight Club", 139, 0, true, 1);
+		CountdownSimulator FightClub = new CountdownSimulator("Fight Club", 139, 0, false, 1);
 
 		CountdownSender outgoing = new CountdownSender("localhost", 12345);
 		
 		FightClub.addObserver(outgoing);
+		
+		outgoing.start();
 		
 		FightClub.start();
 		
@@ -29,6 +31,7 @@ public class MoviePlayerDriver {
 				line = in.readLine();
 				if(line.equals("stop") || line.equals("exit")){
 					FightClub.stop();
+					outgoing.stop();
 					keepPlaying = false;
 				}
 			} catch (IOException e) {

@@ -16,6 +16,7 @@ import com.tradeshow.interfaces.CountdownObserver;
 
 public class SubjectDelegate implements Runnable {
 
+	private volatile boolean needsToPrint;
 	private volatile boolean keepRunning;
 	private CountdownObserver observer;
 	private final Object lock = new Object();
@@ -29,8 +30,12 @@ public class SubjectDelegate implements Runnable {
 
 	}
 
-	public Object getLock() {
-		return this.lock;
+	public boolean needsToPrint() {
+		return needsToPrint;
+	}
+	
+	public void setPrintStatus(boolean status){
+		needsToPrint = status;
 	}
 
 	/***
@@ -55,6 +60,8 @@ public class SubjectDelegate implements Runnable {
 				if(message != ""){
 					observer.handleTime(message);
 				}
+				
+				setPrintStatus(false);
 
 				try {
 					lock.wait();
@@ -96,6 +103,7 @@ public class SubjectDelegate implements Runnable {
 			if (controlThread == null) {
 				controlThread = new Thread(this);
 				keepRunning = true;
+				needsToPrint = true;
 				controlThread.start();
 				return true;
 			}
@@ -108,12 +116,16 @@ public class SubjectDelegate implements Runnable {
 	public void stop() {
 		if (controlThread != null) {
 			
+			while(needsToPrint()){
+				//wait until any pending messages get sent
+			}
+			
 			synchronized (lock) {
 				keepRunning = false;
 
 				controlThread.interrupt();
 
-				//controlThread = null;
+				controlThread = null;
 			}
 		}
 
