@@ -19,9 +19,11 @@ import com.tradeshow.interfaces.*;
 /*
  * This work complies with the JMU Honor Code
  */
+
 public class TradeClient 
 {
 	private BufferedReader input;
+	private InetAddress ip;
 	private int port;
 	private PrintWriter output;
 	private Socket sock;
@@ -39,55 +41,48 @@ public class TradeClient
 	{
 			this.port = reqPort;
 			this.host = reqHost;
-			run();
-	}//constructor
-	
-	
-	/**
-	 * reads the input from the Server
-	 *
-	 */
-	private String getInput()
-	{
-	String message;
-	
-	message = null;
-	try
-	{
-	message = input.readLine();
-	}
-	catch (IOException ioe)
-	{
-	//do nothing
-	}
-	return message;
-	}//getInput
-	
-	
-	/**
-	 * runs the TradeClient
-	 *
-	 */
-	public void run()
-	{
-		boolean go = true;
-		String availMovie;
-  		while(go)
-		{ 	
-		try
+			
+			try
 			{
-			sock = new Socket(host, port);	
+			sock = new Socket(host, port);
+			//System.out.println(sock);
+			ip = sock.getInetAddress();	
 			input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 			output = new PrintWriter(sock.getOutputStream());
-			availMovie = getInput();
-			showMessage(availMovie);
 			}
 			catch(Exception e)
 			{
 			//wait until there is some input
 			}
-		}//while	
-	}//run
+			
+	}//constructor
+	
+	/**
+	 * Constructor
+	 *
+	 * @param reqHost		the host name to connect to
+	 * 
+	 * @param reqPort		the port to connect client to
+	 */
+	public TradeClient(String reqHost, int reqPort, InetAddress addr)
+	{
+			this.port = reqPort;
+			this.host = reqHost;
+			this.ip = addr;
+			
+			try
+			{
+			sock = new Socket(host, port);
+			//System.out.println(sock);	
+			input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+			output = new PrintWriter(sock.getOutputStream());
+			}
+			catch(Exception e)
+			{
+			//wait until there is some input
+			}
+			
+	}//constructor
 	
 	
 	/**
@@ -97,8 +92,7 @@ public class TradeClient
 	 */
 	public void showMessage(String movie)
 	{
-		JOptionPane.showMessageDialog(null, 
-									"New Movie: " + movie + " is now available.");
+			System.out.println("New Movie: " + movie + " is now available.");
 	}//showMessage
 	
 	
