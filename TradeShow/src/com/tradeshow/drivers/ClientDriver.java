@@ -14,7 +14,7 @@ public class ClientDriver {
 	public static void main(String[] args) throws IOException {
 
 		TradeClient client;
-		client = new TradeClient("localhost", 25252);
+		client = new TradeClient("localhost", 22801);
 
 	}// main
 }// ClientDriver

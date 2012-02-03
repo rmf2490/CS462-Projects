@@ -37,12 +37,18 @@ public class ClientConnectionHandler implements Runnable {
 		String message;
 
 		while (running) {
-			try {
-				message = input.readLine();
+				try {
+					if(controlThread.isInterrupted()){
+						running = false;
+					}
+					else{
+						message = input.readLine();
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-			} catch (Exception e) {
-
-			}// catch
 		}// while
 	}// run
 
@@ -61,6 +67,12 @@ public class ClientConnectionHandler implements Runnable {
 	 * stops the thread of execution
 	 */
 	public void stop() {
-		running = false;
+		if (controlThread != null) {
+			running = false;
+
+			controlThread.interrupt();
+
+			controlThread = null;
+		}
 	}
 }// ClientConnectionHandler

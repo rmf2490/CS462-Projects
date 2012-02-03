@@ -79,14 +79,17 @@ public class TradeServer implements TradeObserver, Runnable {
 		ClientConnectionHandler cch;
 		TradeClient current;
 		while (running) {
-			try {
-				sock = sSocket.accept();
-				// System.out.println(sock);
-				// System.out.println("PORT: " +sock.getPort());
-				output = new PrintWriter(sock.getOutputStream());
-				input = new BufferedReader(new InputStreamReader(
-						sock.getInputStream()));
+			if (controlThread.isInterrupted()) {
+				running = false;
+			} else {
 				try {
+					sSocket.setSoTimeout(2000);
+					sock = sSocket.accept();
+					// System.out.println(sock);
+					// System.out.println("PORT: " +sock.getPort());
+					output = new PrintWriter(sock.getOutputStream());
+					input = new BufferedReader(new InputStreamReader(
+							sock.getInputStream()));
 					current = new TradeClient("localhost", sock.getPort(),
 							sock.getInetAddress());
 					System.out.println("current");
@@ -94,18 +97,17 @@ public class TradeServer implements TradeObserver, Runnable {
 					// add to respective lists
 					connectionList.put(cch, cch);
 					clientList.put(cch, current);
-
 					cch.start();
-				}// nested try
-				catch (IOException e) {
-					System.out.println(e);// do nothing
+				} catch (SocketTimeoutException ste) {
+					//Timed out, keep going
+					System.out.println(ste);
+				} catch (IOException ioe) {
+					//ioe.printStackTrace();
+					System.out.println(ioe);
 				}
-			}// try
-			catch (Exception e) {
-				System.out.println("TIME");
-				// socket timeout, go back to try block
-			}// catch
 
+				
+			}// try
 		}// while
 
 		controlThread = null;
@@ -129,7 +131,15 @@ public class TradeServer implements TradeObserver, Runnable {
 	 * 
 	 */
 	public void stop() {
-		running = false;
+		if (controlThread != null) {
+			running = false;
+
+			controlThread.interrupt();
+
+			controlThread = null;
+
+		}
+
 	}// stop
 
 }// class TradeServer

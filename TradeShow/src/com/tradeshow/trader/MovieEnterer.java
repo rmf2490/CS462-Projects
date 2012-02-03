@@ -35,10 +35,10 @@ public class MovieEnterer extends JFrame implements KeyListener, TradeSubject {
 		contentPane.setLayout(new BorderLayout());
 		contentPane.setBackground(Color.WHITE);
 
-		icon = new ImageIcon("iconTradeShow.gif");
+		icon = new ImageIcon("src/iconTradeShow.gif");
 		setIconImage(icon.getImage());
 
-		icon = new ImageIcon("logoTradeShow.gif");
+		icon = new ImageIcon("src/logoTradeShow.gif");
 		logo = new JLabel(icon);
 		logo.setBackground(Color.WHITE);
 		contentPane.add(logo, BorderLayout.CENTER);

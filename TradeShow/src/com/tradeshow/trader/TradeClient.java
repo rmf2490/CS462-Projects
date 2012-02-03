@@ -44,7 +44,6 @@ public class TradeClient {
 
 		while (sock.isConnected()) {
 			input.readLine();
-			//
 		}
 
 	}// constructor

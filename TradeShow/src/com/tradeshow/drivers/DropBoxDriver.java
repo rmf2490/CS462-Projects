@@ -21,17 +21,12 @@ public class DropBoxDriver {
 		MovieEnterer enterer;
 		TradeServer dropbox;
 
-		serverPort = 25252;
+		serverPort = 22801;
 		enterer = new MovieEnterer();
 
-		try {
-
-			dropbox = new TradeServer(serverPort);
-			enterer.addObserver(dropbox);
-			dropbox.start();
-		} catch (Exception ioe) {
-			ioe.printStackTrace();
-		}
+		dropbox = new TradeServer(serverPort);
+		enterer.addObserver(dropbox);
+		dropbox.start();
 
 	}
 
