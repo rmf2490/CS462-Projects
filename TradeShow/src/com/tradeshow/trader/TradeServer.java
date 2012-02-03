@@ -73,7 +73,7 @@ public class TradeServer implements TradeObserver, Runnable {
 				running = false;
 			} else {
 				try {
-					sSocket.setSoTimeout(60000);
+					sSocket.setSoTimeout(10000);
 					sock = sSocket.accept();
 					cch = new ClientConnectionHandler(sock, this);
 					connectionList.put(cch, cch);
