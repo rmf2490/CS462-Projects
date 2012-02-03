@@ -26,18 +26,18 @@ public class CountdownSender implements Runnable, CountdownObserver {
 
 	private ArrayBlockingQueue<DatagramPacket> queue;
 	private volatile boolean keepRunning;
+	private DatagramSocket ds;
 	private InetAddress address;
 	private int udpPort;
-	private DatagramSocket ds;
 	private Thread controlThread;
 
-	
 	/***
 	 * Constructor
+	 * 
 	 * @param address
-	 * 		address to send packets to
+	 *            address to send packets to
 	 * @param udpPort
-	 * 		port on the target machine to send packets to 
+	 *            port on the target machine to send packets to
 	 */
 	public CountdownSender(String address, int udpPort) {
 		try {
@@ -51,28 +51,31 @@ public class CountdownSender implements Runnable, CountdownObserver {
 			// Something went wrong
 		}
 	}
-	
+
 	/***
 	 * Constructor
+	 * 
 	 * @param address
-	 * 		Address to send packets to
+	 *            Address to send packets to
 	 */
 
 	public CountdownSender(String address) {
 		this(address, 12345);
 	}
-	
+
 	/***
 	 * Default Constructor
 	 */
-	public CountdownSender(){
+	public CountdownSender() {
 		this("localhost", 12345);
 	}
 
 	/***
-	 * Retrieves a message from the SubjectDelegate and adds it to the queue to be handled in run()
+	 * Retrieves a message from the SubjectDelegate and adds it to the queue to
+	 * be handled in run()
+	 * 
 	 * @param time
-	 * 		The message to be sent
+	 *            The message to be sent
 	 */
 	@Override
 	public void handleTime(String time) {
@@ -88,14 +91,14 @@ public class CountdownSender implements Runnable, CountdownObserver {
 		queue.offer(dp);
 
 	}
-	
+
 	/***
-	 * Waits for new DatagramPackets to be added to the queue, and sends them to the corresponding address/port
+	 * Waits for new DatagramPackets to be added to the queue, and sends them to
+	 * the corresponding address/port
 	 */
 
 	@Override
 	public void run() {
-		// ds.send(dp);
 		while (keepRunning) {
 			try {
 				DatagramPacket outPacket = queue.take();
@@ -108,13 +111,14 @@ public class CountdownSender implements Runnable, CountdownObserver {
 		}
 
 	}
-	
+
 	/***
 	 * Changes the host to send packets to
+	 * 
 	 * @param address
-	 * 		name of the host that will receive packets
+	 *            name of the host that will receive packets
 	 */
-	
+
 	public void setAddress(String address) {
 		try {
 			this.address = (InetAddress) InetAddress.getByName(address);
@@ -122,21 +126,23 @@ public class CountdownSender implements Runnable, CountdownObserver {
 			// Bad address
 		}
 	}
-	
+
 	/***
 	 * Changes the UDP port this CountdownSender will send to
+	 * 
 	 * @param udpPort
-	 * 		An available UDP port
+	 *            An available UDP port
 	 */
 
 	public void setPort(int udpPort) {
 		this.udpPort = udpPort;
 	}
-	
+
 	/***
 	 * Starts a new CountdownSender thread
 	 * 
-	 * WARNING: Only one CountdownSender should send to a specific address/port combination!
+	 * WARNING: Only one CountdownSender should send to a specific address/port
+	 * combination!
 	 */
 
 	public void start() {
@@ -146,7 +152,7 @@ public class CountdownSender implements Runnable, CountdownObserver {
 			controlThread.start();
 		}
 	}
-	
+
 	/***
 	 * Stops the thread of execution if it is running
 	 */

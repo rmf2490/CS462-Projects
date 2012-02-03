@@ -33,7 +33,8 @@ public class TradeServer implements TradeObserver, Runnable {
 		port = serverPort;
 		// System.out.println("Server Port:" + port);
 		try {
-			sSocket = new ServerSocket(port, 0, InetAddress.getByName("localhost"));
+			sSocket = new ServerSocket(port, 0,
+					InetAddress.getByName("localhost"));
 		}// try
 		catch (IOException ioe) {
 			ioe.printStackTrace(); // if no connection can be made
@@ -61,7 +62,8 @@ public class TradeServer implements TradeObserver, Runnable {
 	}// handleAvailableMovie class
 
 	/**
-	 * The entry point for the new thread of execution.
+	 * Waits for incoming connections, then adds them to the list of those
+	 * that needs to be notified.
 	 * 
 	 **/
 
@@ -79,16 +81,15 @@ public class TradeServer implements TradeObserver, Runnable {
 					connectionList.put(cch, cch);
 					cch.start();
 				} catch (SocketTimeoutException ste) {
-					//Timed out, keep going
-					//System.out.println(ste);
+					// Timed out, keep going
+					// System.out.println(ste);
 				} catch (IOException ioe) {
-					//ioe.printStackTrace();
-					//System.out.println(ioe);
-				} catch (Exception e){
-					//e.printStackTrace();
+					// ioe.printStackTrace();
+					// System.out.println(ioe);
+				} catch (Exception e) {
+					// e.printStackTrace();
 				}
 
-				
 			}// try
 		}// while
 
@@ -105,7 +106,7 @@ public class TradeServer implements TradeObserver, Runnable {
 			running = true;
 			controlThread = new Thread(this);
 			controlThread.start();
-		}// 
+		}//
 	}// start
 
 	/**
@@ -119,7 +120,7 @@ public class TradeServer implements TradeObserver, Runnable {
 			controlThread.interrupt();
 
 			controlThread = null;
-			
+
 			Enumeration<ClientConnectionHandler> tce;
 			ClientConnectionHandler cch;
 

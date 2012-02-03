@@ -1,4 +1,5 @@
 package com.tradeshow;
+
 import java.util.*;
 
 import com.tradeshow.interfaces.*;
@@ -6,8 +7,8 @@ import com.tradeshow.interfaces.*;
 /*********************
  * Simulates the playing of a movie
  * 
- * CURRENT BUGS:
- * 1) Sometimes the last message (where time = 0) won't print due to a race condition. Debug using breakpoints
+ * CURRENT BUGS: 1) Sometimes the last message (where time = 0) won't print due
+ * to a race condition. Debug using breakpoints
  * 
  * @author - Bryan Fearson, Ryan Farrell
  * @version - 1.0
@@ -41,8 +42,8 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 	 * @param notifyIncrement
 	 *            How often to notify the observers. If realTime: The value
 	 *            passed in corresponds to how many minutes to wait (5 = 5
-	 *            minutes). If !realTime: The value passed in simulates the given
-	 *            number of minutes per second
+	 *            minutes). If !realTime: The value passed in simulates the
+	 *            given number of minutes per second
 	 ********************/
 	public CountdownSimulator(String movie, int length, int startTime,
 			boolean realTime, int notifyIncrement) {
@@ -74,12 +75,13 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 	 * End any running SubjectDelegate threads
 	 */
 	private void cleanUp() {
-		for(Map.Entry<CountdownObserver, SubjectDelegate> entry: observers.entrySet()) {
+		for (Map.Entry<CountdownObserver, SubjectDelegate> entry : observers
+				.entrySet()) {
 			SubjectDelegate aDelegate = entry.getValue();
 			aDelegate.stop();
 		}
 	}
-	
+
 	/****
 	 * Notifies all observers of this simulator
 	 * 
@@ -87,12 +89,13 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 	 *            The time message to send to the observer
 	 */
 	public void notifyObservers(String time) {
-		for(Map.Entry<CountdownObserver, SubjectDelegate> entry: observers.entrySet()) {
+		for (Map.Entry<CountdownObserver, SubjectDelegate> entry : observers
+				.entrySet()) {
 			SubjectDelegate delegate = entry.getValue();
 			delegate.setMessage(time);
 			delegate.setPrintStatus(true);
 			delegate.resume();
-			
+
 		}
 
 	}
@@ -131,7 +134,7 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 				String message = movieName + " / Time left: " + movieLength;
 				notifyObservers(message);
 			} catch (InterruptedException e) {
-				//Do nothing, code will drop out of loop
+				// Do nothing, code will drop out of loop
 			}
 
 		}
@@ -150,13 +153,12 @@ public class CountdownSimulator implements Runnable, CountdownSubject {
 		}
 
 	}
-	
+
 	/***
 	 * Terminates the thread
 	 */
 	public void stop() {
-		if(controlThread != null)
-		{
+		if (controlThread != null) {
 			isPlaying = false;
 
 			controlThread.interrupt();

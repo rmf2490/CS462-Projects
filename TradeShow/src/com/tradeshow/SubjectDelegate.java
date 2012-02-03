@@ -23,6 +23,9 @@ public class SubjectDelegate implements Runnable {
 	private String message;
 	private volatile Thread controlThread;
 
+	/**
+	 * Constructor
+	 */
 	public SubjectDelegate() {
 		controlThread = null;
 		message = "";
@@ -30,12 +33,13 @@ public class SubjectDelegate implements Runnable {
 
 	}
 
+	/**
+	 * Returns whether a message is still waiting to be printed
+	 * @return
+	 * 		true if a message needs to be printed, false otherwise
+	 */
 	public boolean needsToPrint() {
 		return needsToPrint;
-	}
-	
-	public void setPrintStatus(boolean status){
-		needsToPrint = status;
 	}
 
 	/***
@@ -57,10 +61,10 @@ public class SubjectDelegate implements Runnable {
 	public void run() {
 		while (keepRunning) {
 			synchronized (lock) {
-				if(message != ""){
+				if (message != "") {
 					observer.handleTime(message);
 				}
-				
+
 				setPrintStatus(false);
 
 				try {
@@ -82,6 +86,15 @@ public class SubjectDelegate implements Runnable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	
+	/**
+	 * Sets the current printing status
+	 * @param status
+	 * 		boolean flagging whether a message needs to be printed or not
+	 */
+	public void setPrintStatus(boolean status) {
+		needsToPrint = status;
+	}
 
 	/***
 	 * Sets the CountdownObservers this SubjectDelegate will be notifying
@@ -100,14 +113,14 @@ public class SubjectDelegate implements Runnable {
 	 *         running in a thread
 	 */
 	public boolean start() {
-			if (controlThread == null) {
-				controlThread = new Thread(this);
-				keepRunning = true;
-				needsToPrint = true;
-				controlThread.start();
-				return true;
-			}
-			return false;
+		if (controlThread == null) {
+			controlThread = new Thread(this);
+			keepRunning = true;
+			needsToPrint = true;
+			controlThread.start();
+			return true;
+		}
+		return false;
 	}//
 
 	/***
@@ -115,11 +128,11 @@ public class SubjectDelegate implements Runnable {
 	 */
 	public void stop() {
 		if (controlThread != null) {
-			
-			while(needsToPrint()){
-				//wait until any pending messages get sent
+
+			while (needsToPrint()) {
+				// wait until any pending messages get sent
 			}
-			
+
 			synchronized (lock) {
 				keepRunning = false;
 

@@ -7,6 +7,7 @@ import com.tradeshow.*;
 
 /***
  * Driver for a device monitoring the status of playing movies.
+ * 
  * @author Bryan Fearson, Ryan Farrell
  * @version 1.0
  */
@@ -22,28 +23,27 @@ public class DeviceDriver {
 	 */
 	public static void main(String[] args) {
 		boolean keepListening = true;
-		
-		BufferedReader in
-		   = new BufferedReader(new InputStreamReader(System.in));
-		
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
 		CountdownReceiver incoming = new CountdownReceiver();
-		
+
 		CountdownDisplay display = new CountdownDisplay();
-		
+
 		incoming.addObserver(display);
-		
+
 		incoming.start();
-		
-		while(keepListening){
+
+		while (keepListening) {
 			String line;
 			try {
 				line = in.readLine();
-				if(line.equals("stop") || line.equals("exit")){
+				if (line.equals("stop") || line.equals("exit")) {
 					incoming.stop();
 					keepListening = false;
 				}
 			} catch (IOException e) {
-				//Just keep going
+				// Just keep going
 			}
 		}
 

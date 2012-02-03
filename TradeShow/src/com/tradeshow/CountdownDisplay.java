@@ -1,4 +1,5 @@
 package com.tradeshow;
+
 import com.tradeshow.interfaces.*;
 
 /*********************
@@ -17,14 +18,16 @@ public class CountdownDisplay implements CountdownObserver {
 	/***
 	 * Constructor for a CountdownDisplay
 	 ***/
-	public CountdownDisplay(){
-		//No arguments, just pass message directly to the handleTime() method instead
+	public CountdownDisplay() {
+		// No arguments, just pass message directly to the handleTime() method
+		// instead
 	}
 
 	/***
 	 * Prints a message to the console
+	 * 
 	 * @param message
-	 * 			The message to be printed
+	 *            The message to be printed
 	 ***/
 	public void handleTime(String message) {
 		System.out.println(message);

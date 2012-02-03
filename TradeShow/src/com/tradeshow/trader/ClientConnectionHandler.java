@@ -10,7 +10,6 @@ import java.net.*;
  * @version 1.0
  */
 
-
 /*
  * This Work complies with JMU Honor Code
  */
@@ -23,7 +22,7 @@ public class ClientConnectionHandler implements Runnable {
 	private TradeServer tServ;
 
 	/**
-	 * Constructor with input
+	 * Constructor
 	 * 
 	 * @param reqSock
 	 *            Socket being used
@@ -37,38 +36,47 @@ public class ClientConnectionHandler implements Runnable {
 		sock = reqSock;
 		tServ = reqServ;
 		// Construct the input and output streams
-		//input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+		// input = new BufferedReader(new
+		// InputStreamReader(sock.getInputStream()));
 		output = new PrintWriter(sock.getOutputStream());
 
 	}// constructor
-	
-	public void handleMessage(String message){
+
+	/**
+	 * Sends a message to the client
+	 * @param message
+	 * 		Message to be sent
+	 */
+	public void handleMessage(String message) {
 		output.println(message);
 		output.flush();
 	}
+	
+	/**
+	 * Runs in a loop until the thread needs to be killed
+	 */
 
 	public void run() {
-		//String message;
+		// String message;
 
 		while (running) {
-				try {
-					if(controlThread.isInterrupted()){
-						running = false;
-					}
-					else{
-						//message = input.readLine();
-						//output.println(message);
-						//output.flush();
-					}
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			try {
+				if (controlThread.isInterrupted()) {
+					running = false;
+				} else {
+					// message = input.readLine();
+					// output.println(message);
+					// output.flush();
 				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}// while
 	}// run
 
-	/*
+	/**
 	 * starts the thread of execution
 	 */
 	public void start() {
@@ -79,7 +87,7 @@ public class ClientConnectionHandler implements Runnable {
 		}// if
 	}// start
 
-	/*
+	/**
 	 * stops the thread of execution
 	 */
 	public void stop() {

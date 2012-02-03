@@ -11,7 +11,8 @@ import com.tradeshow.interfaces.CountdownObserver;
 import com.tradeshow.interfaces.CountdownSubject;
 
 /***
- * Waits for input from a CountdownSender, and relays the message to all Observers of the CountdownReceiver object
+ * Waits for input from a CountdownSender, and relays the message to all
+ * Observers of the CountdownReceiver object
  * 
  * @author Bryan Fearson, Ryan Farrell
  * @version 1.0
@@ -32,14 +33,15 @@ public class CountdownReceiver implements Runnable, CountdownSubject {
 	/***
 	 * Default Constructor
 	 */
-	public CountdownReceiver(){
+	public CountdownReceiver() {
 		this(12345);
 	}
-	
+
 	/***
 	 * Constructor
+	 * 
 	 * @param port
-	 * 		port to listen for messages on
+	 *            port to listen for messages on
 	 */
 	public CountdownReceiver(int port) {
 		udpPort = port;
@@ -66,12 +68,13 @@ public class CountdownReceiver implements Runnable, CountdownSubject {
 		delegate.setObserver(observer);
 
 	}
-	
+
 	/***
 	 * End any running SubjectDelegate threads
 	 */
 	private void cleanUp() {
-		for(Map.Entry<CountdownObserver, SubjectDelegate> entry: observers.entrySet()) {
+		for (Map.Entry<CountdownObserver, SubjectDelegate> entry : observers
+				.entrySet()) {
 			SubjectDelegate aDelegate = entry.getValue();
 			aDelegate.stop();
 		}
@@ -96,7 +99,7 @@ public class CountdownReceiver implements Runnable, CountdownSubject {
 		}
 
 	}
-	
+
 	/***
 	 * Removes an observer from the list of those being notified by this
 	 * receiver, if it exists
@@ -113,7 +116,8 @@ public class CountdownReceiver implements Runnable, CountdownSubject {
 	}
 
 	/***
-	 * Monitors for incoming packets, and notifies observers when new messages arrive
+	 * Monitors for incoming packets, and notifies observers when new messages
+	 * arrive
 	 */
 	public void run() {
 		while (keepRunning) {

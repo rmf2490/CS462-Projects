@@ -6,8 +6,8 @@ import com.tradeshow.trader.*;
  * A driver that can be used test the server-side of the TradeShow available
  * movie system
  * 
- * @author Prof. David Bernstein, James Madison University 
- * 		   (Edited by Bryan Fearson and Ryan Farrell)
+ * @author Prof. David Bernstein, James Madison University (Edited by Bryan
+ *         Fearson and Ryan Farrell)
  * @version 1.0
  */
 

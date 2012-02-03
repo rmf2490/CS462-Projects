@@ -41,13 +41,12 @@ public class TradeClient {
 
 		while (sock.isConnected() && isConnected) {
 			String message = input.readLine();
-			if(message == null){
+			if (message == null) {
 				isConnected = false;
-			}
-			else{
+			} else {
 				showMessage(message);
 			}
-			
+
 		}
 
 	}// constructor
@@ -55,7 +54,7 @@ public class TradeClient {
 	/**
 	 * outputs the Available Movie to the User.
 	 * 
-	 * @param the
+	 * @param movie
 	 *            movie to output
 	 */
 	public void showMessage(String movie) {
