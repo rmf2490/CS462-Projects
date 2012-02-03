@@ -22,7 +22,7 @@ public class TradeClient {
 	private String movie;
 
 	/**
-	 * Constructor
+	 * Constructor for a TradeClient that runs on the host
 	 * 
 	 * @param reqHost
 	 *            the host name to connect to
@@ -32,8 +32,8 @@ public class TradeClient {
 	 */
 	public TradeClient(String reqHost, int reqPort) throws IOException,
 			SocketException {
-		this.port = reqPort;
-		this.host = reqHost;
+		port = reqPort;
+		host = reqHost;
 		System.out.println("TRADE CLIENT PORT:" + port);
 		sock = new Socket(host, port);
 		ip = sock.getInetAddress();
@@ -49,13 +49,14 @@ public class TradeClient {
 	}// constructor
 
 	/**
-	 * Constructor
+	 * Constructor for a TradeClient to be used to keep track of listening clients. Used by TradeServer
 	 * 
 	 * @param reqHost
-	 *            the host name to connect to
-	 * 
+	 * 		the host name to connect to
 	 * @param reqPort
-	 *            the port to connect client to
+	 * 		the port to connect client to
+	 * @param addr
+	 * 		address of the client
 	 */
 	public TradeClient(String reqHost, int reqPort, InetAddress addr)
 			throws IOException, SocketException {

@@ -32,11 +32,10 @@ public class TradeServer implements TradeObserver, Runnable {
 	 *            serverPort used
 	 */
 	public TradeServer(int serverPort) {
-		this.port = serverPort;
+		port = serverPort;
 		// System.out.println("Server Port:" + port);
 		try {
-			sSocket = new ServerSocket(port);
-			sSocket.setSoTimeout(5000);
+			sSocket = new ServerSocket(port, 0, InetAddress.getByName("localhost"));
 		}// try
 		catch (IOException ioe) {
 			ioe.printStackTrace(); // if no connection can be made
@@ -57,13 +56,11 @@ public class TradeServer implements TradeObserver, Runnable {
 		TradeClient current;
 		ClientConnectionHandler cch;
 
-		// System.out.println("handleAvailableMovie");
 		tce = connectionList.elements();
 		while (tce.hasMoreElements()) {
 			cch = tce.nextElement();
-			// System.out.println(cch);
+			System.out.println(cch);
 			current = clientList.get(cch);
-
 			current.showMessage(movie);
 		}// while
 
@@ -83,7 +80,7 @@ public class TradeServer implements TradeObserver, Runnable {
 				running = false;
 			} else {
 				try {
-					sSocket.setSoTimeout(2000);
+					sSocket.setSoTimeout(60000);
 					sock = sSocket.accept();
 					// System.out.println(sock);
 					// System.out.println("PORT: " +sock.getPort());
@@ -100,10 +97,12 @@ public class TradeServer implements TradeObserver, Runnable {
 					cch.start();
 				} catch (SocketTimeoutException ste) {
 					//Timed out, keep going
-					System.out.println(ste);
+					//System.out.println(ste);
 				} catch (IOException ioe) {
 					//ioe.printStackTrace();
-					System.out.println(ioe);
+					//System.out.println(ioe);
+				} catch (Exception e){
+					//e.printStackTrace();
 				}
 
 				
@@ -123,7 +122,7 @@ public class TradeServer implements TradeObserver, Runnable {
 			running = true;
 			controlThread = new Thread(this);
 			controlThread.start();
-		}// if
+		}// 
 	}// start
 
 	/**
