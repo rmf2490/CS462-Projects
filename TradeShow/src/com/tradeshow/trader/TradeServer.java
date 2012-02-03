@@ -85,11 +85,11 @@ public class TradeServer implements TradeObserver, Runnable {
 					// System.out.println(sock);
 					// System.out.println("PORT: " +sock.getPort());
 					output = new PrintWriter(sock.getOutputStream());
+					
 					input = new BufferedReader(new InputStreamReader(
 							sock.getInputStream()));
 					current = new TradeClient("localhost", sock.getPort(),
 							sock.getInetAddress());
-					System.out.println("current");
 					cch = new ClientConnectionHandler(sock, this);
 					// add to respective lists
 					connectionList.put(cch, cch);

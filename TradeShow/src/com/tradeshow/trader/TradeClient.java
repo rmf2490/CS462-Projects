@@ -43,7 +43,8 @@ public class TradeClient {
 		output.flush();
 
 		while (sock.isConnected()) {
-			input.readLine();
+			String message = input.readLine();
+			showMessage(message);
 		}
 
 	}// constructor
