@@ -12,6 +12,11 @@ import com.tradeshow.interfaces.*;
  * @author Prof. David Bernstein, James Madison University
  * @version 1.0
  */
+
+/*
+ * This Work complies with JMU Honor Code
+ */
+
 public class MovieEnterer extends JFrame implements KeyListener, TradeSubject {
 	private HashSet<TradeObserver> observers;
 	private JTextField textField;

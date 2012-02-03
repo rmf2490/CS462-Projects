@@ -2,11 +2,21 @@ package com.tradeshow.trader;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
+
+/***
+ * Handles incoming client connections
+ * 
+ * @author Bryan Fearson, Ryan Farrell
+ * @version 1.0
+ */
+
+
+/*
+ * This Work complies with JMU Honor Code
+ */
 
 public class ClientConnectionHandler implements Runnable {
 	private volatile boolean running;
-	private BufferedReader input;
 	private PrintWriter output;
 	private Socket sock;
 	private Thread controlThread;
@@ -24,17 +34,21 @@ public class ClientConnectionHandler implements Runnable {
 	public ClientConnectionHandler(Socket reqSock, TradeServer reqServ)
 			throws IOException {
 		// get appropriate server and socket
-		tServ = reqServ;
 		sock = reqSock;
-
+		tServ = reqServ;
 		// Construct the input and output streams
-		input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+		//input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 		output = new PrintWriter(sock.getOutputStream());
 
 	}// constructor
+	
+	public void handleMessage(String message){
+		output.println(message);
+		output.flush();
+	}
 
 	public void run() {
-		String message;
+		//String message;
 
 		while (running) {
 				try {
@@ -42,9 +56,11 @@ public class ClientConnectionHandler implements Runnable {
 						running = false;
 					}
 					else{
-						message = input.readLine();
+						//message = input.readLine();
+						//output.println(message);
+						//output.flush();
 					}
-				} catch (IOException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

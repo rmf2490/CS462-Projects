@@ -6,9 +6,14 @@ import com.tradeshow.trader.*;
 /**
  * A Driver that can test the Client-side of the TradeShow Program.
  * 
- * @author Ryan Farrell, Bryan Fearson
+ * @author Bryan Fearson, Ryan Farrell
  * @version 1.0
  */
+
+/*
+ * This Work complies with JMU Honor Code
+ */
+
 public class ClientDriver {
 
 	public static void main(String[] args) throws IOException {
